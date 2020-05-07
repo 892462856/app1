@@ -10,10 +10,9 @@ app.engine('html', mustacheExpress('./views/base', '.html'));
 app.set('views', './views')
 app.set('view engine', 'html')
 
-app.get('/', (req, res) => res.send('Hello World!'))
-app.get('/a', function (req, res) {
-    res.render('index', {a:12,b:'gg'})//把读取的数据填充进模板
-})
+const webRouter = require('./routes/web')
+app.use('/', webRouter)
+
 
 
 
