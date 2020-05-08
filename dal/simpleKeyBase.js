@@ -13,14 +13,14 @@ class base {
   }
 
   get(id, callback) {
-    this.conn.query(`SELECT * from ${this.table} where id=?`, id, function (err, results, fields) {
+    this.conn.query(`SELECT * from ${this.table} where id = ?`, id, function (err, results, fields) {
       if (err) throw err
       callback(results)
     })
   }
 
   delete(id, callback = null) {
-    this.conn.query(`DELETE FROM ${this.table} WHERE id =  :id`, { id }, function (error, results, fields) {
+    this.conn.query(`DELETE FROM ${this.table} WHERE id =  :id`,  id , function (error, results, fields) {
       if (error) throw error
       if (callback) callback(results)
     })

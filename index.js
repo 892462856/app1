@@ -14,9 +14,8 @@ app.engine('html', mustacheExpress('./views/base', '.html'));
 app.set('views', './views')
 app.set('view engine', 'html')
 
-const webRouter = require('./routes/web')
-app.use('/', webRouter)
-
+const router = require('./routes/web')
+app.use('/tab', router.tab)
 
 
 

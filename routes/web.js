@@ -25,23 +25,29 @@ class multikeyBase {
         // })
         router.get('/list', (req, res) => {
             dalClass.getList(rows => {
-                res.render('list', { rows })
+                // res.render('list', { rows })
+                res.json(rows)
             })
         })
         router.get(`/${keysUrl}`, (req, res) => {
-            const ids = keys.reduce((ids,key)=>{
-                ids[key]=req.query[key]
-                return ids
-            },{})
+            let ids = req.params[keys[0]]
+            if (keys.length > 1) {
+                ids = keys.reduce((ids, key) => {
+                    ids[key] = req.params[key]
+                    return ids
+                }, {})
+            }
             dalClass.get(ids, rows => {
-                res.render('list', { rows })
+                debugger
+                // res.render('list', { rows })
+                res.json(rows)
             })
         })
         router.delete(`/${keysUrl}`, (req, res) => {
-            const ids = keys.reduce((ids,key)=>{
-                ids[key]=req.query[key]
+            const ids = keys.reduce((ids, key) => {
+                ids[key] = req.params[key]
                 return ids
-            },{})
+            }, {})
             dalClass.delete(ids, rows => {
                 res.json(rows)
             })
@@ -59,10 +65,10 @@ class multikeyBase {
             })
         })
         router.post(`/enable/${keysUrl}`, (req, res) => {
-            const ids = keys.reduce((ids,key)=>{
-                ids[key]=req.query[key]
+            const ids = keys.reduce((ids, key) => {
+                ids[key] = req.params[key]
                 return ids
-            },{})
+            }, {})
             const enabled = req.body.enabled
             dalClass.enable(ids, enabled, rows => {
                 res.json(rows)
@@ -71,7 +77,7 @@ class multikeyBase {
     }
 }
 
-class simpleKeyBase extends multikeyBase{
+class simpleKeyBase extends multikeyBase {
     constructor(router, dalClass) {
         super(router, dalClass, ['id'])
         // router.get('/paging', (req, res) => {
@@ -85,13 +91,13 @@ class simpleKeyBase extends multikeyBase{
         //     })
         // })
         // router.get('/:id', (req, res) => {
-        //     const id = req.query.id
+        //     const id = req.params.id
         //     dalClass.get(id, rows => {
         //         res.render('list', { rows })
         //     })
         // })
         // router.delete('/:id', (req, res) => {
-        //     const id = req.query.id
+        //     const id = req.params.id
         //     dalClass.delete(id, rows => {
         //         res.json(rows)
         //     })
@@ -109,7 +115,7 @@ class simpleKeyBase extends multikeyBase{
         //     })
         // })
         // router.post('/enable/:id', (req, res) => {
-        //     const id = req.query.id
+        //     const id = req.params.id
         //     const enabled = req.body.enabled
         //     dalClass.enable(id, enabled, rows => {
         //         res.json(rows)
@@ -119,6 +125,8 @@ class simpleKeyBase extends multikeyBase{
 }
 
 var tabsRouter = express.Router()
-new simpleKeyBase(tabsRouter,dal.tabs)
+new simpleKeyBase(tabsRouter, dal.tabs)
 
-module.exports = router
+module.exports = {
+    tab: tabsRouter
+}
