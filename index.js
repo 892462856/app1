@@ -1,6 +1,10 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
+
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 const rf = require("fs")
 app.use('/static', express.static('static'))//静态文件托管
