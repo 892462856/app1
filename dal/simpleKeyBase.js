@@ -20,7 +20,7 @@ class base {
   }
 
   delete(id, callback = null) {
-    this.conn.query(`DELETE FROM ${this.table} WHERE id =  :id`,  id , function (error, results, fields) {
+    this.conn.query(`DELETE FROM ${this.table} WHERE id =  ?`,  id , function (error, results, fields) {
       if (error) throw error
       if (callback) callback(results)
     })
@@ -42,7 +42,7 @@ class base {
       if (error) throw error
       if (callback) callback(results)
     })
-  }
+  } // sql可能有问题？？？
 
   enable(id, enabled, callback = null) {
     this.conn.query(`UPDATE ${this.table} SET enabled=:enabled WHERE id =  :id`, { id, enabled }, function (error, results, fields) {

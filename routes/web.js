@@ -1,5 +1,6 @@
 const express = require('express')
 const dal = require('../dal/index')
+const grab = require('../logic/grab')
 
 const router = express.Router()
 // router.use(function (req, res, next) {
@@ -18,25 +19,36 @@ router.get('', (req, res) => {
 class multikeyBase {
     constructor(router, dalClass, keys) {
         const keysUrl = keys.map(key => (`:${key}`)).join('+')
-        // router.get('/paging', (req, res) => {
-        //     dal.tabs.paging(rows => {
-        //         res.render('paging', { rows })
-        //     })
-        // })
+        // router.get('/paging'
+
+        router.get('/grab', (req, res) => {
+            grab.loadPage('http://www.yusuan123.com/page/1').then(home => {
+                grab.parseHome(home, (ids) => {
+                    ids.forEach(id => {
+                        grab.loadPage(`http://www.yusuan123.com/${id}.html`).then(page => {
+                            grab.parsePage(page, obj => {
+                                obj.id = id
+                                dal.articles.insert(obj, t => {
+                                    console.log(t)
+                                })
+                            })
+                        })
+                    })
+                })
+                res.send(home)
+            }).catch(error => {
+                res.send(error.message)
+            })
+        })
+
         router.get('/list', (req, res) => {
             dalClass.getList(rows => {
-                // res.render('list', { rows })
+                // res.render(`${dalClass.table}/list`, { rows })
                 res.json(rows)
             })
         })
         router.get(`/${keysUrl}`, (req, res) => {
-            let ids = req.params[keys[0]]
-            if (keys.length > 1) {
-                ids = keys.reduce((ids, key) => {
-                    ids[key] = req.params[key]
-                    return ids
-                }, {})
-            }
+            const ids = keys.map((key) => req.params[key])
             dalClass.get(ids, rows => {
                 debugger
                 // res.render('list', { rows })
@@ -44,10 +56,7 @@ class multikeyBase {
             })
         })
         router.delete(`/${keysUrl}`, (req, res) => {
-            const ids = keys.reduce((ids, key) => {
-                ids[key] = req.params[key]
-                return ids
-            }, {})
+            const ids = keys.map((key) => req.params[key])
             dalClass.delete(ids, rows => {
                 res.json(rows)
             })

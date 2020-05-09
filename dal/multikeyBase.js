@@ -6,7 +6,8 @@ class multikeyBase extends simpleKeyBase {
   constructor(table, keys) {
     super(table)
     this.keys = keys
-    this.whereKeys = keys.map(key => (`${key} = :${key}`)).join(' and ')
+    this.whereKeys = keys.map(key => (`${key} = ?`)).join(' and ')
+    this.whereKeys2 = keys.map(key => (`${key} = :${key}`)).join(' and ')
   }
 
   get(ids, callback) {
@@ -28,7 +29,7 @@ class multikeyBase extends simpleKeyBase {
       if (this.keys.includes(key)) return ''
       return `${key} = :${key}`
     }).join(',')
-    this.conn.query(`UPDATE ${this.table} SET ${sqlFragment} WHERE ${this.whereKeys}`, obj, function (error, results, fields) {
+    this.conn.query(`UPDATE ${this.table} SET ${sqlFragment} WHERE ${this.whereKeys2}`, obj, function (error, results, fields) {
       if (error) throw error
       if (callback) callback(results)
     })
@@ -36,7 +37,7 @@ class multikeyBase extends simpleKeyBase {
 
   enable(ids, enabled, callback = null) {
     const obj={...ids,enabled}
-    this.conn.query(`UPDATE ${this.table} SET enabled=:enabled WHERE ${this.whereKeys}`, obj, function (error, results, fields) {
+    this.conn.query(`UPDATE ${this.table} SET enabled=:enabled WHERE ${this.whereKeys2}`, obj, function (error, results, fields) {
       if (error) throw error
       if (callback) callback(results)
     })
