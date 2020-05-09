@@ -5,6 +5,10 @@ class base {
     this.table = table
   }
 
+  paging(pageIndex,pageSize, callback){
+
+  }
+
   getList(callback) {
     this.conn.query(`SELECT * from ${this.table}`, function (err, results, fields) {
       if (err) throw err
