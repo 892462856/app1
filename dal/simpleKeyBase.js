@@ -5,54 +5,50 @@ class base {
     this.table = table
   }
 
-  paging(pageIndex,pageSize, callback){
+  promiseQuery(sql, params) {
+    const conn = this.conn
+    return new Promise(function (resolve, reject) {
+      var query = conn.query(sql, params, function (error, results, fields) {
+        if (error){
+          debugger
+          console.log(error.message)
+          reject(error)
+        }
+        resolve(results)
+      })
+    })
+  }
+
+  paging(pageIndex, pageSize, callback) {
 
   }
 
   getList(callback) {
-    this.conn.query(`SELECT * from ${this.table}`, function (err, results, fields) {
-      if (err) throw err
-      callback(results)
-    })
+    return this.promiseQuery(`SELECT * from ${this.table}`)
   }
 
-  get(id, callback) {
-    this.conn.query(`SELECT * from ${this.table} where id = ?`, id, function (err, results, fields) {
-      if (err) throw err
-      callback(results)
-    })
+  get(id) {
+    return this.promiseQuery(`SELECT * from ${this.table} where id = ?`, id)
   }
 
-  delete(id, callback = null) {
-    this.conn.query(`DELETE FROM ${this.table} WHERE id =  ?`,  id , function (error, results, fields) {
-      if (error) throw error
-      if (callback) callback(results)
-    })
+  delete(id) {
+    return this.promiseQuery(`DELETE FROM ${this.table} WHERE id =  ?`, id)
   }
 
-  insert(obj, callback = null) {
-    var query = this.conn.query(`INSERT INTO ${this.table} SET ?`, obj, function (error, results, fields) {
-      if (error) throw error
-      if (callback) callback(results)
-    })
+  insert(obj) {
+    return this.promiseQuery(`INSERT INTO ${this.table} SET ?`, obj)
   }
 
-  update(obj, callback = null) {
+  update(obj) {
     const sqlFragment = Object.keys(obj).map(key => {
       if (key === 'id') return ''
       return `${key} = :${key}`
     }).join(',')
-    this.conn.query(`UPDATE ${this.table} SET ${sqlFragment} WHERE id =  :id`, obj, function (error, results, fields) {
-      if (error) throw error
-      if (callback) callback(results)
-    })
+    return this.promiseQuery(`UPDATE ${this.table} SET ${sqlFragment} WHERE id =  :id`, obj)
   } // sql可能有问题？？？
 
-  enable(id, enabled, callback = null) {
-    this.conn.query(`UPDATE ${this.table} SET enabled=:enabled WHERE id =  :id`, { id, enabled }, function (error, results, fields) {
-      if (error) throw error
-      if (callback) callback(results)
-    })
+  enable(id, enabled) {
+    return this.promiseQuery(`UPDATE ${this.table} SET enabled=:enabled WHERE id =  :id`, { id, enabled })
   }
 
   // paging({pageSize,pageIndex},callback) {

@@ -11,20 +11,23 @@ const regexs =
   content2: '<iframe .+?</iframe>',
   content3: '<script (.|\r|\n)+?</script>',
   content4: '<a target="_blank" rel="nofollow" (.|\r|\r)+?</a>',
-  content5: '<div class="asb asb-post asb-post-01"></div>'
+  content5: '<div class="asb asb-post asb-post-01"></div>',
+
+  classify:'<a href=".+?" rel="category tag">(.+?)</a>',
+  tab:'<a href="http://www.yusuan123.com/tag/.+?" rel="tag">(.+?)</a>'
 }
 
 const parsePage = function (html, callback) {
-  const obj = {}
+  const obj = {classifys:[],tabs:[]}
   let reg = new RegExp(regexs.title, 'im')
-  html = html.replace(reg, (a, b) => {
-    debugger
+  html.replace(reg, (a, b) => {
+    // debugger
     obj.title = b
     return a
   })
   reg = new RegExp(regexs.content, 'im')
-  html = html.replace(reg, (a, content) => {
-    debugger
+  html.replace(reg, (a, content) => {
+    // debugger
     reg = new RegExp(regexs.content2, 'igm')
     content = content.replace(reg, (a, b) => (''))
     reg = new RegExp(regexs.content3, 'igm')
@@ -38,16 +41,26 @@ const parsePage = function (html, callback) {
     return a
   })
   reg = new RegExp(regexs.link, 'im')
-  html = html.replace(reg, (a, b) => {
-    debugger
+  html.replace(reg, (a, b) => {
+    // debugger
     obj.link = b
     return a
   })
   reg = new RegExp(regexs.fetchCode, 'im')
-  html = html.replace(reg, (a, b) => {
-    debugger
+  html.replace(reg, (a, b) => {
+    // debugger
     obj.fetchCode = b
     return a
+  })
+  reg = new RegExp(regexs.classify, 'igm')
+  html.replace(reg, (a, b) => {
+    // debugger
+    obj.classifys.push(b)
+  })
+  reg = new RegExp(regexs.tab, 'igm')
+  html.replace(reg, (a, b) => {
+    // debugger
+    obj.tabs.push(b)
   })
   // console.log(obj)
   callback(obj)

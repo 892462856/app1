@@ -13,8 +13,14 @@ app.engine('html', mustacheExpress('./views/base', '.html'));
 app.set('views', './views')
 app.set('view engine', 'html')
 
-const router = require('./routes/web')
-app.use('/tab', router.tab)
+// app.use(function (err, req, res, next) {
+//   console.log('-------------')
+//   console.error(err.stack)
+//   res.status(500).send('err.message')
+//   next(err)
+// })
 
+const router = require('./routes/api')
+app.use('/tab', router.tab)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

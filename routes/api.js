@@ -16,29 +16,60 @@ router.get('', (req, res) => {
 //     })
 // })
 
+const startGrab = function (pageIndex) {
+    grab.loadPage(`http://www.yusuan123.com/page/${pageIndex}`).then(home => {
+        grab.parseHome(home, (ids) => {
+            ids.forEach(id => {
+                grab.loadPage(`http://www.yusuan123.com/${id}.html`).then(page => {
+                    grab.parsePage(page, obj => {
+                        const classifys = obj.classifys
+                        const tabs = obj.tabs
+                        obj.id = id
+                        delete obj.classifys
+                        delete obj.tabs
+                        dal.articles.insert(obj)
+                        classifys.forEach(classify => {
+                            // dal.classifys.get(classify).then(rows => {
+                            //     if (rows.length === 0) {
+                            //         dal.classifys.insert({ id: classify, name: classify })
+                            //     }
+                            // }) // 结束后从articlesClassify里分组取
+                            dal.articlesClassify.insert({ articles_id: id, classifys_id: classify })
+                        })
+                        tabs.forEach(tab => {
+                            // dal.tabs.get(tab).then(rows => {
+                            //     if (rows.length === 0) {
+                            //         dal.tabs.insert({ id: tab, name: tab })
+                            //     }
+                            // }) // 结束后从articlesTabs里分组取
+                            dal.articlesTabs.insert({ articles_id: id, tabs_id: tab })
+                        })
+                    })
+                })
+            })
+        })
+        res.send(home)
+    }).catch(error => {
+        res.send(error.message)
+    })
+}
+
 class multikeyBase {
     constructor(router, dalClass, keys) {
         const keysUrl = keys.map(key => (`:${key}`)).join('+')
         // router.get('/paging'
 
+        // router.use(function (err, req, res, next) {
+        //     console.log('-------------')
+        //     console.error(err.stack)
+        //     res.status(500).send(err.message)
+        //     next(err)
+        //   })
+
         router.get('/grab', (req, res) => {
-            grab.loadPage('http://www.yusuan123.com/page/1').then(home => {
-                grab.parseHome(home, (ids) => {
-                    ids.forEach(id => {
-                        grab.loadPage(`http://www.yusuan123.com/${id}.html`).then(page => {
-                            grab.parsePage(page, obj => {
-                                obj.id = id
-                                dal.articles.insert(obj, t => {
-                                    console.log(t)
-                                })
-                            })
-                        })
-                    })
-                })
-                res.send(home)
-            }).catch(error => {
-                res.send(error.message)
-            })
+            for (let i = 1; i < 139; i++) {
+                startGrab(i)
+            }
         })
 
         router.get('/list', (req, res) => {
