@@ -2,20 +2,6 @@ const express = require('express')
 const dal = require('../dal/index')
 const grab = require('../logic/grab')
 
-const router = express.Router()
-// router.use(function (req, res, next) {
-//     next()
-// })
-router.get('', (req, res) => {
-    res.render('index', { a: 12, b: 'gg' })
-})
-// router.get('/c', function (req, res) {
-//     debugger
-//     dal.tabs.getList(rows => {
-//         res.render('index', { rows })
-//     })
-// })
-
 const startGrab = function (pageIndex) {
     grab.loadPage(`http://www.yusuan123.com/page/${pageIndex}`).then(home => {
         grab.parseHome(home, (ids) => {
@@ -72,10 +58,10 @@ class multikeyBase {
             }
         })
 
-        router.get('/list', (req, res) => {
-            dalClass.getList(rows => {
-                // res.render(`${dalClass.table}/list`, { rows })
-                res.json(rows)
+        router.get('/list/:page', (req, res) => {
+            const pageIndex = parseInt(req.params.page || 1)
+            dalClass.paging({ pageIndex }).then(data => {
+                res.json(data)
             })
         })
         router.get(`/${keysUrl}`, (req, res) => {

@@ -21,6 +21,13 @@ app.set('view engine', 'html')
 // })
 
 const router = require('./routes/api')
+// app.use('api/article', router.tab)
+// app.use('api/classify', router.tab)
 app.use('/tab', router.tab)
-
+// app.use('api/menu', router.tab)
+// app.use('api/articleClassify', router.tab)
+// app.use('api/articleTab', router.tab)
+app.get('', (req, res) => {
+  res.render('index', { a: 12, b: 'gg' })
+})
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
