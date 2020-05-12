@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80000
 File Encoding         : 65001
 
-Date: 2020-05-09 18:19:28
+Date: 2020-05-12 19:41:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,9 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `articles`;
 CREATE TABLE `articles` (
   `id` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `title` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `title` varchar(500) CHARACTER SET utf8 NOT NULL,
+  `img` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
+  `intro` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
   `content` text CHARACTER SET utf8 NOT NULL,
   `datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `order` int(4) NOT NULL DEFAULT '1',

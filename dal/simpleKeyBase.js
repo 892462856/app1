@@ -51,7 +51,7 @@ class base {
     return this.promiseQuery(`UPDATE ${this.table} SET enabled=:enabled WHERE id =  :id`, { id, enabled })
   }
 
-  paging({ pageSize = 15, pageIndex = 1 }, conditions=[]) {
+  paging({ pageSize = 15, pageIndex = 1 } = { pageSize: 15, pageIndex: 1 }, conditions = []) {
     const whereStr = ['1=1']
     const values = Object.entries(conditions).map(([key, value]) => {
       whereStr.push(`${key}=?`)
@@ -59,7 +59,7 @@ class base {
     })
     const p2 = this.promiseQuery(`SELECT count(1) from ${this.table} where ${whereStr.join(' and ')}`)
     const p1 = this.promiseQuery(`SELECT * from ${this.table} where ${whereStr.join(' and ')} limit ${(pageIndex - 1) * pageSize},${pageSize}`, values)
-    return Promise.all([p1, p2]).then(([list,[{'count(1)':total}]]) => {
+    return Promise.all([p1, p2]).then(([list, [{ 'count(1)': total }]]) => {
       return {
         pageIndex,
         pageSize,

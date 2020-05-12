@@ -20,14 +20,19 @@ app.set('view engine', 'html')
 //   next(err)
 // })
 
-const router = require('./routes/api')
-// app.use('api/article', router.tab)
-// app.use('api/classify', router.tab)
-app.use('/tab', router.tab)
-// app.use('api/menu', router.tab)
-// app.use('api/articleClassify', router.tab)
-// app.use('api/articleTab', router.tab)
-app.get('', (req, res) => {
-  res.render('index', { a: 12, b: 'gg' })
-})
+const apiRouter = require('./routes/api')
+const webRouter = require('./routes/web')
+
+app.use('/api/tab', apiRouter.tabs)
+app.use('/api/classify', apiRouter.classifys)
+app.use('/api/menu', apiRouter.menu)
+app.use('/api/article', apiRouter.articles)
+app.use('/api/articleClassify', apiRouter.articlesClassify)
+app.use('/api/articlesTab', apiRouter.articlesTabs)
+
+app.use(webRouter)
+
+// app.get('', (req, res) => {
+//   res.render('index', { a: 12, b: 'gg' })
+// })
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

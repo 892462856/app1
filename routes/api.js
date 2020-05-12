@@ -106,6 +106,26 @@ class multikeyBase {
 var tabsRouter = express.Router()
 new multikeyBase(tabsRouter, dal.tabs, ['id'])
 
+var classifysRouter = express.Router()
+new multikeyBase(classifysRouter, dal.classifys, ['id'])
+
+var menuRouter = express.Router()
+new multikeyBase(menuRouter, dal.menu, ['id'])
+
+var articlesRouter = express.Router()
+new multikeyBase(articlesRouter, dal.articles, ['id'])
+
+var articlesClassifyRouter = express.Router()
+new multikeyBase(articlesClassifyRouter, dal.articlesClassify, ['articles_id','classifys_id'])
+
+var articlesTabsRouter = express.Router()
+new multikeyBase(articlesTabsRouter, dal.articlesTabs, ['articles_id','tabs_id'])
+
 module.exports = {
-    tab: tabsRouter
+    tabs: tabsRouter,
+    classifys:classifysRouter,
+    menu:menuRouter,
+    articles:articlesRouter,
+    articlesClassify:articlesClassifyRouter,
+    articlesTabs:articlesTabsRouter
 }
