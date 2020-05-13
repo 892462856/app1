@@ -1,52 +1,48 @@
-{{>header}}
-{{>menu}}
+{{>header}} {{>top}}
 
-{{data}}
-<ul class="contents">
-  {{#list}}
-  <li class="contents-item">
-    <a class="thumb" target="_blank" href="">
-      <img alt="" src="">
-    </a>
+<div class="center">
+    <div class="center-content homeCenter-content">
+        {{#list}}
+        <article class="excerpt">
+            <a class="thumb" href="{{id}}" target="_blank">
+                <img alt="" src="">
+            </a>
+            <header>
+                <a class="cat" href="">综合资料分享<i></i></a>
+                <h2><a target="_blank" href="{{id}}" title="">{{title}}</a></h2>
+            </header>
+            <p class="meta">
+                <time><i class="fa fa-clock-o"></i>{{datetime}}</time>
+                <span class="author"><i class="fa fa-user"></i>太平洋</span>
+                <a class="pc" href="#xx"><i class="fa fa-comments-o"></i>评论(0)</a>
+                <a href="#xx" etap="like" class="post-like" data-pid="11204">
+                    <i class="fa fa-thumbs-o-up"></i>赞(<span>0</span>)
+                </a>
+            </p>
+            <p class="note">
+                <!-- {content} -->
+                资源推荐：菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1资源推荐：菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1资源推荐：菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1
+            </p>
+        </article>
+        {{/list}}
 
-    <header>
-      <a class="cat" href="">综合资料分享<i></i></a>
-      <h2>
-        <a target="_blank" href="" title="">{{title}}</a>
-      </h2>
-    </header>
-    <p class="meta">
-      <time><i class="fa fa-clock-o"></i>{{datetime}}</time>
-      <span class="author">
-        <i class="fa fa-user"></i>太平洋
-      </span>
-      <a class="pc" href="#xx"><i class="fa fa-comments-o"></i>评论(0)</a>
-      <a href="#xx" etap="like" class="post-like" data-pid="11204">
-        <i class="fa fa-thumbs-o-up"></i>赞(<span>0</span>)
-      </a>
-    </p>
-    <p class="note">
-      <!-- {{content}} -->
-      资源推荐：菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1资源推荐：菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1资源推荐：菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1菜品图片图库素材22W张高清菜图素材川菜湘菜粤菜菜谱图片1
-    </p>
-  </li>
-  {{/list}}
-</ul>
-
-<div class="pagination">
-  <ul>
-    <li class="prev-page"><a href="http://www.yusuan123.com/page/3" _hover-ignore="1">上一页</a></li>
-    <li><a href="http://www.yusuan123.com/">1</a></li>
-    <li><a href="http://www.yusuan123.com/page/2">2</a></li>
-    <li><a href="http://www.yusuan123.com/page/3">3</a></li>
-    <li class="active"><span>4</span></li>
-    <li><a href="http://www.yusuan123.com/page/5" _hover-ignore="1">5</a></li>
-    <li><a href="http://www.yusuan123.com/page/6">6</a></li>
-    <li><a href="http://www.yusuan123.com/page/7">7</a></li>
-    <li><span> ... </span></li>
-    <li class="next-page"><a href="http://www.yusuan123.com/page/5">下一页</a></li>
-    <li><span>共 {{(total-1)/pageSize+1}} 页</span></li>
-  </ul>
+        <div class="pagination">
+            <ul>
+                <li class="prev-page"><a href="/list/3" _hover-ignore="1">上一页</a></li>
+                <li><a href="/">1</a></li>
+                <li><a href="/list/2">2</a></li>
+                <li><a href="/list/3">3</a></li>
+                <li class="active"><span>4</span></li>
+                <li><a href="/list/5" _hover-ignore="1">5</a></li>
+                <li><a href="/list/6">6</a></li>
+                <li><a href="/list/7">7</a></li>
+                <li><span> ... </span></li>
+                <li class="next-page"><a href="/list/5">下一页</a></li>
+                <li><span>共 {{(total-1)/pageSize+1}} 页</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="sidebar center-sidebar">广告</div>
 </div>
 <!-- <div class="paging">
   {{total}}|{{pageIndex}}|{{pageSize}}

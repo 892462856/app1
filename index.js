@@ -7,7 +7,7 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 const rf = require("fs")
-app.use('/static', express.static('static'))//静态文件托管
+app.use('/static', express.static('static')) //静态文件托管
 const mustacheExpress = require('mustache-express')
 app.engine('html', mustacheExpress('./views/base', '.html'));
 app.set('views', './views')
