@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 const rf = require("fs")
 app.use('/static', express.static('static')) //静态文件托管
 const mustacheExpress = require('mustache-express')
-app.engine('html', mustacheExpress('./views/base', '.html'));
+app.engine('html', mustacheExpress('./views/base', '.html'))
 app.set('views', './views')
 app.set('view engine', 'html')
 
@@ -32,7 +32,4 @@ app.use('/api/articlesTab', apiRouter.articlesTabs)
 
 app.use(webRouter)
 
-// app.get('', (req, res) => {
-//   res.render('index', { a: 12, b: 'gg' })
-// })
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

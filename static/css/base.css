@@ -77,6 +77,11 @@ body {
     overflow: hidden;
 }
 
+/* top ===================== */
+.fa-search{
+    font-size: 18px;
+    color: #f00;
+}
 
 /*menu =================================*/
 
