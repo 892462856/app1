@@ -526,17 +526,21 @@ body {
 }
 
 .site-search-form {
-    padding: 25px 20%;
+    padding: 25px 0px;
     overflow: hidden;
+    text-align: center;
 }
-
-.search-input {
-    float: left;
+.search-input,
+.search-btn{
+    display: inline-block;
+}
+.search-input {    
+    width: 50%;
+    height: 40px;
+    padding: 4px 12px;
+    
     color: #999;
     border: solid 1px #ddd;
-    width: 85%;
-    height: 50px;
-    padding: 4px 12px;
     border-right: none;
     font-size: 16px;
     border-radius: 2px 0 0 2px;
@@ -555,7 +559,11 @@ body {
     font-size: 16px;
     padding: 0 12px;
     border-radius: 0 2px 2px 0;
-    width: 15%;
+    width: 10%;
+    max-width: 80px;
+
+    position: relative;
+    left: -3px;
 }
 
 .search-btn:hover,
