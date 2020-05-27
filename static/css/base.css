@@ -34,6 +34,23 @@ body {
     line-height: 1.7em;
 }
 
+/*top ======================*/
+.top .container{
+    height: 40px;
+}
+.top .container .logo,
+.top .container .logo a,
+.top .container .brand{
+    display: inline-block;
+    height: 100%;
+}
+.top .container .logo a{
+    font-size: 28px;
+    line-height: 40px;
+}
+.top .container .brand{
+    line-height: 1.4em;
+}
 
 /*page =============================== */
 

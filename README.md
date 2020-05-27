@@ -1,9 +1,16 @@
 
+npm install --registry=http://r.cnpmjs.org -g cnpm
+
 npm install -g  nodemon
 npm install -g node-inspector
 
 nodemon --inspect index.js
 =========================
+npm install --global node-inspect
+node --inspect index.js
+在chrome中的地址栏输入chrome://inspect/#devices
+参考：https://www.jianshu.com/p/44bf228c35ac
+==========================
 1.全局安装node-inspect模块：npm install -g node-inspect
 2.通过谷歌浏览器打开：chrome://flags/#enable-devtools-experiments
 3.在cmd中输入：node --debug-brk --inspect 文件名

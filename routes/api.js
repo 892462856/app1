@@ -56,7 +56,7 @@ class multikeyBase {
             for (let i = 1; i < 139; i++) {
                 startGrab(i)
             }
-        })
+        }) 
 
         router.get('/list/:page', (req, res) => {
             const pageIndex = parseInt(req.params.page || 1)

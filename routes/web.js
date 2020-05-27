@@ -1,16 +1,13 @@
 const express = require('express')
-// const dal = require('../dal/index')
-
-const dal={}
+const dal = require('../dal/index')
 
 var router = express.Router()
 
 router.get('/', (req, res) => {
-    res.render('index', [])
-    // dal.articles.paging().then(data => {
-    //     debugger
-    //     res.render('index', data)
-    // })
+    // res.render('index', [])
+    dal.articles.paging().then(data => {
+        res.render('index', data)
+    })
 })
 
 router.get('/list/:page', (req, res) => {
