@@ -170,16 +170,15 @@ body {
 }
 
 .header {
-    position: relative;
+    /* position: relative; */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 9;
     background-color: #fff;
     padding: 10px 0 20px;
-    margin-bottom: 15px;
     border-bottom: 1px solid #EAEAEA;
-    /*box-shadow: 0 1px 4px rgba(0,0,0,.05);*/
     border-color: rgba(0, 0, 0, .08);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .03)
 }
@@ -511,22 +510,11 @@ body {
 .site-search {
     background-color: #fff;
     background-color: rgba(255, 255, 255, 0.95);
-    position: absolute;
-    top: -50px;
-    left: 0;
-    right: 0;
-    height: 100px;
-    z-index: 8;
-    opacity: 0
 }
 
-.search-on .site-search {
-    top: 108px;
-    opacity: 1
-}
 
 .site-search-form {
-    padding: 25px 0px;
+    padding: 15px 0px;
     overflow: hidden;
     text-align: center;
 }
@@ -5105,8 +5093,6 @@ a {
     line-height: 1;
     text-align: left;
     background-color: #fff;
-    margin-bottom: 15px;
-    margin-top: -15px;
     border-bottom: 1px solid #EBEBEB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
     color: #999;
@@ -5130,8 +5116,8 @@ a {
 
 @media (max-width:640px) {
     .breadcrumbs {
-        margin-top: 1px;
-        margin-bottom: 0;
+        /* margin-top: 1px;
+        margin-bottom: 0; */
         padding: 10px 15px;
         border-bottom: none;
         margin-bottom: 1px;
@@ -6711,8 +6697,6 @@ input.euc-y-i[type="password"]:hover {
     line-height: 1;
     text-align: left;
     background-color: #fff;
-    margin-bottom: 15px;
-    margin-top: -15px;
     border-bottom: 1px solid #EBEBEB;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
     color: #999;
