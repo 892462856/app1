@@ -11,7 +11,7 @@ class base {
       var query = conn.query(sql, params, function (error, results, fields) {
         if (error) {
           debugger
-          console.log(error.message)
+          console.log(`SQL错误：${error.message}`,sql,params)
           reject(error)
         }
         resolve(results)

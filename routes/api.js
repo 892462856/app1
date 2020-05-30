@@ -6,32 +6,22 @@ const startGrab = function (pageIndex) {
     grab.loadPage(pageIndex).then(home => {
         grab.parseHome(home, (items) => {
             items.forEach(item => {
-                const id = item.id
-                grab.loadPage(`http://www.yusuan123.com/${id}.html`).then(page => {
-                    grab.parsePage(page, obj => {
-                        const classifys = obj.classifys
-                        const tabs = obj.tabs
-                        obj.id = id
-                        delete obj.classifys
-                        delete obj.tabs
-                        obj.img = item.smallImg ? '1' : '0'
-                        obj.intro = item.intro
-                        dal.articles.insert(obj)
+                grab.loadPage(item.id,true).then(page => {                    
+                    grab.parsePage(page, article => {
+                        console.log('save',item.id)
+                        const classifys = article.classifys
+                        const tabs = article.tabs
+                        article.id = item.id
+                        delete article.classifys
+                        delete article.tabs
+                        article.img = item.smallImg ? '1' : '0'
+                        article.intro = item.intro
+                        dal.articles.insert(article)
                         classifys.forEach(classify => {
-                            // dal.classifys.get(classify).then(rows => {
-                            //     if (rows.length === 0) {
-                            //         dal.classifys.insert({ id: classify, name: classify })
-                            //     }
-                            // }) // 结束后从articlesClassify里分组取
-                            dal.articlesClassify.insert({ articles_id: id, classifys_id: classify })
+                            dal.articlesClassify.insert({ articles_id: item.id, classifys_id: classify })
                         })
                         tabs.forEach(tab => {
-                            // dal.tabs.get(tab).then(rows => {
-                            //     if (rows.length === 0) {
-                            //         dal.tabs.insert({ id: tab, name: tab })
-                            //     }
-                            // }) // 结束后从articlesTabs里分组取
-                            dal.articlesTabs.insert({ articles_id: id, tabs_id: tab })
+                            dal.articlesTabs.insert({ articles_id: item.id, tabs_id: tab })
                         })
                     })
                 })
@@ -47,9 +37,10 @@ class multikeyBase {
         const keysUrl = keys.map(key => (`:${key}`)).join('+')
 
         router.get('/grab', (req, res) => {
-            for (let i = 5; i < 6; i++) {
+            for (let i = 1; i < 144; i++) {
                 startGrab(i)
             }
+            res.json('结束')
         })
 
         router.get('/list/:page', (req, res) => {
