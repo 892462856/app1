@@ -11,7 +11,9 @@ class base {
       var query = conn.query(sql, params, function (error, results, fields) {
         if (error) {
           debugger
-          console.log(`SQL错误：${error.message}`,sql,params)
+          console.log(`SQL错误：${error.message}`)
+          console.log(sql)
+          console.log(params)
           reject(error)
         }
         resolve(results)
@@ -40,11 +42,21 @@ class base {
   }
 
   update(obj) {
-    const sqlFragment = Object.keys(obj).map(key => {
-      if (key === 'id') return ''
-      return `${key} = :${key}`
-    }).join(',')
-    return this.promiseQuery(`UPDATE ${this.table} SET ${sqlFragment} WHERE id =  :id`, obj)
+    const id = obj.id
+    delete obj.id
+    // const sqlFragment = Object.keys(obj).map(key => (`${key} = ?`)).join(',')
+    // obj.id = id
+
+    const keys = []
+    const values = []
+    Object.entries(obj).forEach(([key, value]) => {
+      keys.push(key)
+      values.push(value)
+    })
+    values.push(id)
+    const sqlFragment = keys.map(key => (`${key} = ?`)).join(',')
+
+    return this.promiseQuery(`UPDATE ${this.table} SET ${sqlFragment} WHERE id =  ?`, values)
   } // sql可能有问题？？？
 
   enable(id, enabled) {

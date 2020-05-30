@@ -1,30 +1,41 @@
 const express = require('express')
 const dal = require('../dal/index')
 const grab = require('../logic/grab')
+const { debug } = require('request')
+
+const grabContent = function (item,update=false) {
+    grab.loadPage(item.id, true).then(page => {
+        grab.parsePage(page, article => {            
+            const classifys = article.classifys
+            const tabs = article.tabs
+            article.id = item.id
+            delete article.classifys
+            delete article.tabs
+            article.smallImg = item.smallImg ? '1' : '0'
+            article.intro = item.intro
+            if(update){
+                dal.articles.update(article)
+            }else{
+                dal.articles.insert(article)
+            }     
+            console.log('save', item.id)       
+            classifys.forEach(classify => {
+                dal.articlesClassify.insert({ articles_id: item.id, classifys_id: classify })
+            })
+            tabs.forEach(tab => {
+                dal.articlesTabs.insert({ articles_id: item.id, tabs_id: tab })
+            })
+        })
+    }).catch(error => {
+        console.log(error.message)
+    })
+}
 
 const startGrab = function (pageIndex) {
     grab.loadPage(pageIndex).then(home => {
         grab.parseHome(home, (items) => {
             items.forEach(item => {
-                grab.loadPage(item.id,true).then(page => {                    
-                    grab.parsePage(page, article => {
-                        console.log('save',item.id)
-                        const classifys = article.classifys
-                        const tabs = article.tabs
-                        article.id = item.id
-                        delete article.classifys
-                        delete article.tabs
-                        article.img = item.smallImg ? '1' : '0'
-                        article.intro = item.intro
-                        dal.articles.insert(article)
-                        classifys.forEach(classify => {
-                            dal.articlesClassify.insert({ articles_id: item.id, classifys_id: classify })
-                        })
-                        tabs.forEach(tab => {
-                            dal.articlesTabs.insert({ articles_id: item.id, tabs_id: tab })
-                        })
-                    })
-                })
+                grabContent(item)
             })
         })
     }).catch(error => {
@@ -41,6 +52,20 @@ class multikeyBase {
                 startGrab(i)
             }
             res.json('结束')
+        })
+
+        router.get('/regrab', (req, res) => {
+            // debugger
+            dal.articles.getInvalidList().then(list => {
+                list.forEach(item => {
+                    // debugger
+                    grabContent(item,true)
+                })
+            })
+            // for (let i = 1; i < 144; i++) {
+            //     startGrab(i)
+            // }
+            res.json('结束2')
         })
 
         router.get('/list/:page', (req, res) => {

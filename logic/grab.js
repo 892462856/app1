@@ -10,7 +10,7 @@ const regexs =
   title: /<h1 class="article-title"><a href=".+?">(.+?)<\/a><\/h1>/im, // '<h1 class="article-title"><a href=".+?">(.+?)</a></h1>',
   content: /<article class="article-content">((.|\r|\n)+?)<\/article>/im, // '<article class="article-content">((.|\r|\n)+?)</article>',
   link: /链接：<a target="_blank" rel="nofollow" href=".+?"  target="_blank"  rel="nofollow" >(.+?)<\/a>/im, // '链接：<a target="_blank" rel="nofollow" href=".+?"  target="_blank"  rel="nofollow" >(.+?)</a>',
-  fetchCode: /提取码：(.+?)<\/p>/im, // '提取码：(.+?)</p>',
+  fetchCode: /提取码：(.+?)\s/im, // '提取码：(.+?)</p>',
   trash2: /<iframe .+?<\/iframe>/img, // '<iframe .+?</iframe>',
   trash3: /<script (.|\r|\n)+?<\/script>/img, //'<script (.|\r|\n)+?</script>',
   trash4: /<a target="_blank" rel="nofollow" (.|\r|\r)+?<\/a>/img, //'<a target="_blank" rel="nofollow" (.|\r|\r)+?</a>',
@@ -52,7 +52,7 @@ const parsePage = function (html, callback) {
     .replace(regexs.trash3, '')
     .replace(regexs.trash4, '')
     .replace(regexs.trash5, '')
-    .replace(regexs.trash6, '')
+    // .replace(regexs.trash6, '')
     .replace(regexs.trash7, '')
   obj.link = (html.match(regexs.link) || [,])[1] || ''
   obj.fetchCode = (html.match(regexs.fetchCode) || [,])[1] || ''

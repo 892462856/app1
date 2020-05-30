@@ -6,6 +6,10 @@ class articles extends simpleKeyBase {
     this.conn = connection
   }
 
+  getInvalidList(){
+    return this.promiseQuery(`SELECT * from ${this.table} where title = ?`,'')
+  }
+
   // insert({ id, title, content, order, datetime = new Date(), link, fetchCode, enabled = 1 }, callback = null) {
   //   var query = this.conn.query('INSERT INTO articles SET ?', { id, title, content, order, datetime, link, fetchCode, enabled }, function (error, results, fields) {
   //     if (error) throw error
