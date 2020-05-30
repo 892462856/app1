@@ -33,7 +33,12 @@ body {
     color: #555;
     line-height: 1.7em;
 
-    margin-top: 35px;
+    margin-top: 30px;
+}
+.hr{
+    display: block;
+    height: 1px;
+    clear: both;
 }
 
 /*top ======================*/
@@ -50,40 +55,46 @@ body {
     font-size: 28px;
     line-height: 40px;
 }
+.top .container .logo a:hover{
+    color: #99f;
+}
 .top .container .brand{
     line-height: 1.4em;
 }
 
-/*page =============================== */
+/* search ===================== */
+.fa-search{
+    font-size: 18px !important;
+    color: #fff;
+}
 
+/*page =============================== */
 .center {
     max-width: 1200px;
     margin: auto;
-    overflow: auto;
-    text-align: left;
+    overflow: auto;   
+
+    position: relative;
 }
 
 .center-content,
 .center-sidebar {
-    padding: 0 20px;
     background-color: #fff;
     border: 1px solid #eaeaea;
     border-radius: 4px;
+    text-align: left;
+}
+.center-sidebar{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 360px;
+    min-height: 300px;
 }
 
 .center-content {
-    float: left;
-    width: calc(70% - 42px);
-}
-
-.center-sidebar {
-    float: right;
-    width: calc(30% - 42px - 27px);
-}
-
-.center-content.homeCenter-content {
-    padding: 0px;
-    width: calc(70% - 2px);
+    max-width: 1200px;
+    margin:auto;
     border: none;
 }
 
@@ -96,17 +107,12 @@ body {
     overflow: hidden;
 }
 
-/* top ===================== */
-.fa-search{
-    font-size: 18px !important;
-    color: #f00;
-}
-
 /*menu =================================*/
 
 .menu {
     display: flex;
     padding-top: 5px;
+    float: right;
 }
 
 .menu-item {
@@ -131,6 +137,9 @@ body {
     border: 1px solid #eef;
     border-radius: 2px;
     box-shadow: 0px 2px 3px #eee;
+}
+ul.sub-menu li:hover {
+    background: #eef;
 }
 
 .sub-menu .menu-item {

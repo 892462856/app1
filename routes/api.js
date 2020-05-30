@@ -3,9 +3,10 @@ const dal = require('../dal/index')
 const grab = require('../logic/grab')
 
 const startGrab = function (pageIndex) {
-    grab.loadPage(`http://www.yusuan123.com/page/${pageIndex}`).then(home => {
-        grab.parseHome(home, (ids) => {
-            ids.forEach(id => {
+    grab.loadPage(pageIndex).then(home => {
+        grab.parseHome(home, (items) => {
+            items.forEach(item => {
+                const id = item.id
                 grab.loadPage(`http://www.yusuan123.com/${id}.html`).then(page => {
                     grab.parsePage(page, obj => {
                         const classifys = obj.classifys
@@ -13,6 +14,8 @@ const startGrab = function (pageIndex) {
                         obj.id = id
                         delete obj.classifys
                         delete obj.tabs
+                        obj.img = item.smallImg ? '1' : '0'
+                        obj.intro = item.intro
                         dal.articles.insert(obj)
                         classifys.forEach(classify => {
                             // dal.classifys.get(classify).then(rows => {
@@ -34,29 +37,20 @@ const startGrab = function (pageIndex) {
                 })
             })
         })
-        res.send(home)
     }).catch(error => {
-        res.send(error.message)
+        console.log(error.message)
     })
 } // 还有 导航 未有
 
 class multikeyBase {
     constructor(router, dalClass, keys) {
         const keysUrl = keys.map(key => (`:${key}`)).join('+')
-        // router.get('/paging'
-
-        // router.use(function (err, req, res, next) {
-        //     console.log('-------------')
-        //     console.error(err.stack)
-        //     res.status(500).send(err.message)
-        //     next(err)
-        //   })
 
         router.get('/grab', (req, res) => {
-            for (let i = 1; i < 139; i++) {
+            for (let i = 5; i < 6; i++) {
                 startGrab(i)
             }
-        }) 
+        })
 
         router.get('/list/:page', (req, res) => {
             const pageIndex = parseInt(req.params.page || 1)
@@ -116,16 +110,16 @@ var articlesRouter = express.Router()
 new multikeyBase(articlesRouter, dal.articles, ['id'])
 
 var articlesClassifyRouter = express.Router()
-new multikeyBase(articlesClassifyRouter, dal.articlesClassify, ['articles_id','classifys_id'])
+new multikeyBase(articlesClassifyRouter, dal.articlesClassify, ['articles_id', 'classifys_id'])
 
 var articlesTabsRouter = express.Router()
-new multikeyBase(articlesTabsRouter, dal.articlesTabs, ['articles_id','tabs_id'])
+new multikeyBase(articlesTabsRouter, dal.articlesTabs, ['articles_id', 'tabs_id'])
 
 module.exports = {
     tabs: tabsRouter,
-    classifys:classifysRouter,
-    menu:menuRouter,
-    articles:articlesRouter,
-    articlesClassify:articlesClassifyRouter,
-    articlesTabs:articlesTabsRouter
+    classifys: classifysRouter,
+    menu: menuRouter,
+    articles: articlesRouter,
+    articlesClassify: articlesClassifyRouter,
+    articlesTabs: articlesTabsRouter
 }
