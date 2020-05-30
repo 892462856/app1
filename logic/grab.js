@@ -42,26 +42,36 @@ const downloadImg = function (targetSrc, id) {
   })
 }
 
-const parsePage = function (html, callback) {
+const parsePage = function (html, callback, hasValues = {}) {
   debugger
   const obj = {}
 
-  obj.title = (html.match(regexs.title) || [,])[1] || ''
-  obj.content = ((html.match(regexs.content) || [,])[1] || '')
-    .replace(regexs.trash2, '')
-    .replace(regexs.trash3, '')
-    .replace(regexs.trash4, '')
-    .replace(regexs.trash5, '')
-    // .replace(regexs.trash6, '')
-    .replace(regexs.trash7, '')
-  obj.link = (html.match(regexs.link) || [,])[1] || ''
-  obj.fetchCode = (html.match(regexs.fetchCode) || [,])[1] || ''
-  obj.classifys = [...(html.matchAll(regexs.classify) || [])].map(t => t[1])
-  obj.tabs = [...(html.matchAll(regexs.tab) || [])].map(t => t[1])
+  if (!hasValues.title)
+    obj.title = (html.match(regexs.title) || [,])[1] || ''
 
-  const menuHtml = (html.match(regexs.menuHtml) || [null])[0] || ''
-  const menus = [...(menuHtml.matchAll(regexs.menu) || [])].map(t => t[1])
-  obj.menu_id = menus.length ? menus[menus.length - 1] : ''
+  if (!hasValues.content)
+    obj.content = ((html.match(regexs.content) || [,])[1] || '')
+      .replace(regexs.trash2, '')
+      .replace(regexs.trash3, '')
+      .replace(regexs.trash4, '')
+      .replace(regexs.trash5, '')
+      // .replace(regexs.trash6, '')
+      .replace(regexs.trash7, '')
+
+  if (!hasValues.link)
+    obj.link = (html.match(regexs.link) || [,])[1] || ''
+  if (!hasValues.fetchCode)
+    obj.fetchCode = (html.match(regexs.fetchCode) || [,])[1] || ''
+  // if (!hasValues.content)
+    obj.classifys = [...(html.matchAll(regexs.classify) || [])].map(t => t[1])
+  // if (!hasValues.content)
+    obj.tabs = [...(html.matchAll(regexs.tab) || [])].map(t => t[1])
+
+  if (!hasValues.menu_id) {
+    const menuHtml = (html.match(regexs.menuHtml) || [null])[0] || ''
+    const menus = [...(menuHtml.matchAll(regexs.menu) || [])].map(t => t[1])
+    obj.menu_id = menus.length ? menus[menus.length - 1] : ''
+  }
   callback(obj)
 }
 

@@ -14,6 +14,15 @@ const grabContent = function (item,update=false) {
             article.smallImg = item.smallImg ? '1' : '0'
             article.intro = item.intro
             if(update){
+                if(item.smallImg) delete article.smallImg
+                if(item.menu_id) delete article.menu_id
+                if(item.title) delete article.title
+                if(item.intro) delete article.intro
+                if(item.content) delete article.content
+                if(item.link) delete article.link
+                if(item.fetchCode) delete article.fetchCode
+                delete article.enabled
+                delete article.order
                 dal.articles.update(article)
             }else{
                 dal.articles.insert(article)
@@ -25,7 +34,7 @@ const grabContent = function (item,update=false) {
             tabs.forEach(tab => {
                 dal.articlesTabs.insert({ articles_id: item.id, tabs_id: tab })
             })
-        })
+        },item)
     }).catch(error => {
         console.log(error.message)
     })
